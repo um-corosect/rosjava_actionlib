@@ -78,7 +78,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
    * @param actionResultType A string with the type information for the result
    * message.
    */
-  ActionClient (ConnectedNode node, String actionName, String actionGoalType,
+  public ActionClient (ConnectedNode node, String actionName, String actionGoalType,
     String actionFeedbackType, String actionResultType) {
     this.node = node;
     this.actionName = actionName;

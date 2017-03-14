@@ -78,7 +78,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
    * @param actionResultType String holding the type for the action result
    * message.
    */
-  ActionServer (ConnectedNode node, String actionName, String actionGoalType,
+  public ActionServer (ConnectedNode node, String actionName, String actionGoalType,
     String actionFeedbackType, String actionResultType) {
     this.node = node;
     this.actionName = actionName;
