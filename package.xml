@@ -1,10 +1,12 @@
 <?xml version="1.0"?>
 <package>
   <name>rosjava_actionlib</name>
-  <version>0.2.1</version>
+  <version>0.3.0</version>
   <description>Actionlib for Rosjava. A pure java implementation of actionlib.</description>
 
-  <maintainer email="ecorbellini@ekumenlabs.com">Ernesto Corbellini</maintainer>
+  <maintainer email="lruegeme@techfak.uni-bielefeld.de">Leroy Ruegemer</maintainer>
+
+  <author email="ecorbellini@ekumenlabs.com">Ernesto Corbellini</author>
 
   <license>Apache 2.0</license>
 
