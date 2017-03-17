@@ -30,14 +30,14 @@ https://youtu.be/FmmsMdEbYFs
 2. In another terminal run the actionlib sample server: ```$ rosrun actionlib_tutorials fibonacci_server```
 3. Run our client:
   * Source the project environment: ```$ source devel/setup.bash```
-  * Run the client: ```$ rosrun rosjava_actionlib execute com.github.ekumen.rosjava_actionlib.TestClient```
+  * Run the client: ```$ rosrun rosjava_actionlib execute com.github.rosjava_actionlib.TestClient```
 
 ## Output from the test client
 The test client will connect to the fibonacci server and send it a goal. It
 should then receive feedback from the server and a final response. The output
 should look something like this:
 ```
-Loading node class: com.github.ekumen.rosjava_actionlib.TestClient
+Loading node class: com.github.rosjava_actionlib.TestClient
 
 Waiting for action server to start...
 Action server started.
@@ -64,7 +64,7 @@ Bye!
 ## Running a test server:
 1. Run our server:
   * Source the project environment: ```$ source devel/setup.bash```
-  * Run the server: ```$ rosrun rosjava_actionlib execute com.github.ekumen.rosjava_actionlib.TestServer```
+  * Run the server: ```$ rosrun rosjava_actionlib execute com.github.rosjava_actionlib.TestServer```
 2. If its not already running, open a new terminal and get a ros master running: ```$ roscore```
 3. In another terminal run the actionlib sample client: ```$ rosrun actionlib_tutorials fibonacci_client```
 4. Once finished, use Ctrl+C to close the server.

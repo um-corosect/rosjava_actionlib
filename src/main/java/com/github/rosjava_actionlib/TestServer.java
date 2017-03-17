@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.github.ekumen.rosjava_actionlib;
+package com.github.rosjava_actionlib;
 
-import java.util.List;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;

@@ -15,7 +15,7 @@
  */
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2.1'
+    gradleVersion = '2.14.1'
 }
 
 repositories {
@@ -24,11 +24,12 @@ repositories {
 }
 
 buildscript {
-  apply from: "https://github.com/rosjava/rosjava_bootstrap/raw/indigo/buildscript.gradle"
+  apply from: "https://github.com/CentralLabFacilities/rosjava_bootstrap/raw/kinetic/buildscript.gradle"
 }
 
 apply plugin: 'catkin'
 apply plugin: 'java'
+apply plugin: "ros-java"
 
 allprojects {
     /*
@@ -39,26 +40,17 @@ allprojects {
     version = project.catkin.pkg.version
 }
 
-subprojects {
-    /*
-     * The ros plugin configures a few things:
-     *
-     *  - local deployment repository : where it dumps the jars and packaged artifacts)
-     *  - local maven repositories    : where it finds your locally installed/built artifacts)
-     *  - external maven repositories : where it goes looking if it can't find dependencies locally
-     *
-     * To modify, or add repos to the default external maven repositories list, pull request against this code:
-     *
-     *   https://github.com/rosjava/rosjava_bootstrap/blob/indigo/gradle_plugins/src/main/groovy/org/ros/gradle_plugins/RosPlugin.groovy#L31
-     */
+dependencies {
+    /* An external maven artifact dependency */
 
-    apply plugin: "ros-java"
+    compile 'org.ros.rosjava_core:rosjava:[0.2,0.3)'
+    compile 'org.apache.directory.studio:org.apache.commons.logging:[1.1,1.2)'
+    testCompile 'junit:junit:4.12'
 
-    /*
-     * Some IDE support if you use it.
-     */
-    /* apply plugin: "eclipse" */
-    /* apply plugin: "idea"    */
+    /* Example of a local subproject dependency */
+    /* compile project(':sibling_gradle_project') */
+
+    compile 'org.ros.rosjava_messages:actionlib_tutorials:[0.1,)'
 }
 
 /*

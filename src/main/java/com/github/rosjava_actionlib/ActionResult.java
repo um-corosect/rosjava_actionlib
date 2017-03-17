@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.ekumen.rosjava_actionlib;
+package com.github.rosjava_actionlib;
 
 import java.lang.reflect.Method;
 import org.ros.internal.message.Message;
@@ -27,20 +27,20 @@ import actionlib_msgs.GoalStatus;
  * Class to encapsulate the action feedback object.
  * @author Ernesto Corbellini ecorbellini@ekumenlabs.com
  */
-public class ActionFeedback<T_ACTION_FEEDBACK extends Message> {
-  private T_ACTION_FEEDBACK actionFeedbackMessage = null;
+public class ActionResult<T_ACTION_RESULT extends Message> {
+  private T_ACTION_RESULT actionResultMessage = null;
 
-  public ActionFeedback(T_ACTION_FEEDBACK fmsg) {
-    actionFeedbackMessage = fmsg;
+  public ActionResult(T_ACTION_RESULT msg) {
+    actionResultMessage = msg;
   }
 
   public Header getHeaderMessage() {
     Header h = null;
-    if (actionFeedbackMessage != null) {
+    if (actionResultMessage != null) {
       try {
-        Method m = actionFeedbackMessage.getClass().getMethod("getHeader");
+        Method m = actionResultMessage.getClass().getMethod("getHeader");
         m.setAccessible(true); // workaround for known bug http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6924232
-        h = (Header)m.invoke(actionFeedbackMessage);
+        h = (Header)m.invoke(actionResultMessage);
       }
       catch (Exception e) {
         e.printStackTrace(System.out);
@@ -51,11 +51,11 @@ public class ActionFeedback<T_ACTION_FEEDBACK extends Message> {
 
   public GoalStatus getGoalStatusMessage() {
     GoalStatus gs = null;
-    if (actionFeedbackMessage != null) {
+    if (actionResultMessage != null) {
       try {
-        Method m = actionFeedbackMessage.getClass().getMethod("getStatus");
+        Method m = actionResultMessage.getClass().getMethod("getStatus");
         m.setAccessible(true); // workaround for known bug http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6924232
-        gs = (GoalStatus)m.invoke(actionFeedbackMessage);
+        gs = (GoalStatus)m.invoke(actionResultMessage);
       }
       catch (Exception e) {
         e.printStackTrace(System.out);
@@ -64,13 +64,13 @@ public class ActionFeedback<T_ACTION_FEEDBACK extends Message> {
     return gs;
   }
 
-  public Message getFeedbackMessage() {
+  public Message getResultMessage() {
     Message x = null;
-    if (actionFeedbackMessage != null) {
+    if (actionResultMessage != null) {
       try {
-        Method m = actionFeedbackMessage.getClass().getMethod("getFeedback");
+        Method m = actionResultMessage.getClass().getMethod("getResult");
         m.setAccessible(true); // workaround for known bug http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6924232
-        x = (Message)m.invoke(actionFeedbackMessage);
+        x = (Message)m.invoke(actionResultMessage);
       }
       catch (Exception e) {
         e.printStackTrace(System.out);

@@ -1,4 +1,4 @@
-import com.github.ekumen.rosjava_actionlib.*;
+import com.github.rosjava_actionlib.*;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;

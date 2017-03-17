@@ -15,7 +15,7 @@
  * the License.
  */
 
-package com.github.ekumen.rosjava_actionlib;
+package com.github.rosjava_actionlib;
 
 import org.ros.message.Time;
 import actionlib_msgs.GoalID;

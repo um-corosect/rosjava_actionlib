@@ -14,9 +14,8 @@
  * limitations under the License.
  */
 
-package com.github.ekumen.rosjava_actionlib;
+package com.github.rosjava_actionlib;
 
-import java.lang.Exception;
 import actionlib_msgs.GoalStatus;
 import java.util.Vector;
 import java.util.Iterator;
