@@ -1,6 +1,6 @@
-devel/
-build/
-.gradle/
-*.*~
-src/CMakeLists.txt
-.catkin_workspace
+adevel/
+abuild/
+a.gradle/
+a*.*~
+asrc/CMakeLists.txt
+a.catkin_workspace
