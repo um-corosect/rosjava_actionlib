@@ -30,8 +30,10 @@ import org.apache.commons.logging.LogFactory;
  * @author Ernesto Corbellini ecorbellini@ekumenlabs.com
   */
 public class ClientStateMachine {
+
   // Local class to hold the states
   public static class ClientStates {
+    public final static int ERROR = -3;
     public final static int INVALID_TRANSITION = -2;
     public final static int NO_TRANSITION = -1;
     public final static int WAITING_FOR_GOAL_ACK = 0;
@@ -43,6 +45,7 @@ public class ClientStateMachine {
     public final static int PREEMPTING = 6;
     public final static int DONE = 7;
     public final static int LOST = 8;
+
 
     public static String translateState(int state) {
       String stateName;
@@ -451,12 +454,18 @@ public class ClientStateMachine {
   public void resultReceived() {
     if (state == ClientStates.WAITING_FOR_RESULT) {
       state = ClientStates.DONE;
+    } else {
+      state = ClientStates.ERROR;
     }
   }
 
   // TODO: implement method
   public void markAsLost()
   {
+  }
+
+  public boolean isRunning() {
+    return state >= 0 && state < 7;
   }
 
   public int getLatestGoalStatus() {

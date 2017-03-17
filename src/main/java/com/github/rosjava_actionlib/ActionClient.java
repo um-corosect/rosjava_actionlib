@@ -108,6 +108,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
     } else {
       gid.setId(id);
     }
+
     goalManager.setGoal(agMessage);
     goalPublisher.publish(agMessage);
   }
@@ -386,6 +387,10 @@ public class ActionClient<T_ACTION_GOAL extends Message,
    */
   public int getGoalState() {
     return goalManager.getGoalState();
+  }
+
+  public boolean isActive() {
+    return goalManager.stateMachine.isRunning();
   }
 
   /**
