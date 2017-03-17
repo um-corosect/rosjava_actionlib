@@ -1,3 +1,3 @@
-abuild/
-a.gradle/
-a*.*~
+build/
+.gradle/
+*.*~
