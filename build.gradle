@@ -43,7 +43,7 @@ allprojects {
 dependencies {
     /* An external maven artifact dependency */
 
-    compile 'org.ros.rosjava_core:rosjava:[0.2,0.3)'
+    compile 'org.ros.rosjava_core:rosjava:[0.3,0.4)'
     compile 'org.apache.directory.studio:org.apache.commons.logging:[1.1,1.2)'
     testCompile 'junit:junit:4.12'
 

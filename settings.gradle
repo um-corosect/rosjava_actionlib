@@ -14,4 +14,4 @@
  * the License.
  */
 
-include 'rosjava_actionlib'
+rootProject.name = 'rosjava_actionlib'
