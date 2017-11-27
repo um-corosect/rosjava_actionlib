@@ -24,12 +24,12 @@ repositories {
 }
 
 buildscript {
-  apply from: "https://github.com/CentralLabFacilities/rosjava_bootstrap/raw/kinetic/buildscript.gradle"
+  apply from: "https://github.com/CentralLabFacilities/rosjava_bootstrap/raw/clf/buildscript.gradle"
 }
 
 apply plugin: 'catkin'
 apply plugin: 'java'
-apply plugin: "ros-java"
+apply plugin: 'ros-java'
 
 allprojects {
     /*
