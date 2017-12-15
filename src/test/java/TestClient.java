@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.rosjava_actionlib;
+
 
 import java.util.List;
 import org.ros.namespace.GraphName;
@@ -31,6 +31,9 @@ import actionlib_tutorials.FibonacciResult;
 import actionlib_msgs.GoalStatusArray;
 import actionlib_msgs.GoalID;
 import actionlib_msgs.GoalStatus;
+import com.github.rosjava_actionlib.ActionClient;
+import com.github.rosjava_actionlib.ActionClientListener;
+import com.github.rosjava_actionlib.ClientStateMachine;
 import org.apache.commons.logging.Log;
 
 

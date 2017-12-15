@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.github.rosjava_actionlib;
+
 
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
@@ -29,6 +29,8 @@ import actionlib_tutorials.FibonacciResult;
 import actionlib_msgs.GoalStatusArray;
 import actionlib_msgs.GoalID;
 import actionlib_msgs.GoalStatus;
+import com.github.rosjava_actionlib.ActionServer;
+import com.github.rosjava_actionlib.ActionServerListener;
 
   /**
    * Class to test the actionlib server.
