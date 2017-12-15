@@ -20,7 +20,6 @@ import java.util.List;
 import org.ros.namespace.GraphName;
 import org.ros.node.AbstractNodeMain;
 import org.ros.node.ConnectedNode;
-import org.ros.internal.message.Message;
 import org.ros.message.Duration;
 import actionlib_tutorials.FibonacciActionGoal;
 import actionlib_tutorials.FibonacciActionFeedback;
