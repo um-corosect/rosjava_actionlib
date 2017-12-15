@@ -36,6 +36,7 @@ import java.util.concurrent.TimeoutException;
 import actionlib_msgs.GoalStatusArray;
 import actionlib_msgs.GoalStatus;
 import actionlib_msgs.GoalID;
+import java.util.LinkedList;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -61,7 +62,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
     private Subscriber<GoalStatusArray> serverStatus = null;
     private ConnectedNode node = null;
     private String actionName;
-    private ActionClientListener callbackTarget = null;
+    private List<ActionClientListener> callbackTargets = new LinkedList<>();
     GoalIDGenerator goalIdGenerator = null;
     private volatile boolean statusReceivedFlag = false;
     private volatile boolean feedbackPublisherFlag = false;
@@ -95,7 +96,11 @@ public class ActionClient<T_ACTION_GOAL extends Message,
     }
 
     public void attachListener(ActionClientListener target) {
-        callbackTarget = target;
+        callbackTargets.add(target);
+    }
+    
+    public void detachListener(ActionClientListener target) {
+        callbackTargets.remove(target);
     }
 
     /**
@@ -105,7 +110,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
      * @param goal The action goal message.
      * @param id   A string containing the ID for the goal. The ID should represent
      */
-    public Future<Boolean> sendGoal(T_ACTION_GOAL agMessage, String id) {
+    public ActionFuture<T_ACTION_GOAL, T_ACTION_FEEDBACK, T_ACTION_RESULT> sendGoal(T_ACTION_GOAL agMessage, String id) {
         GoalID gid = getGoalId(agMessage);
         if (id == "") {
             goalIdGenerator.generateID(gid);
@@ -116,8 +121,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
         goalManager.setGoal(agMessage);
         goalPublisher.publish(agMessage);
 
-
-        return new ActionClientFuture(goalManager.stateMachine);
+        return ActionClientFuture.createFromGoal(this, actionGoal);
     }
 
     /**
@@ -126,7 +130,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
      *
      * @param goal The action goal message.
      */
-    public Future<Boolean> sendGoal(T_ACTION_GOAL agMessage) {
+    public ActionFuture<T_ACTION_GOAL, T_ACTION_FEEDBACK, T_ACTION_RESULT> sendGoal(T_ACTION_GOAL agMessage) {
         return sendGoal(agMessage, "");
     }
 
@@ -274,8 +278,8 @@ public class ActionClient<T_ACTION_GOAL extends Message,
         }
         goalManager.resultReceived();
         // Propagate the callback
-        if (callbackTarget != null) {
-            callbackTarget.resultReceived(message);
+        for(ActionClientListener a : callbackTargets) {
+            a.resultReceived(message);
         }
     }
 
@@ -291,8 +295,8 @@ public class ActionClient<T_ACTION_GOAL extends Message,
             goalManager.updateStatus(af.getGoalStatusMessage().getStatus());
         }
         // Propagate the callback
-        if (callbackTarget != null) {
-            callbackTarget.feedbackReceived(message);
+        for(ActionClientListener a : callbackTargets) {
+            a.feedbackReceived(message);
         }
     }
 
@@ -313,8 +317,8 @@ public class ActionClient<T_ACTION_GOAL extends Message,
             log.info("Status update is not for our goal!");
         }
         // Propagate the callback
-        if (callbackTarget != null) {
-            callbackTarget.statusReceived(message);
+        for(ActionClientListener a : callbackTargets) {
+            a.statusReceived(message);
         }
     }
 
@@ -414,7 +418,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
      * Finish the action client. Unregister publishers and listeners.
      */
     public void finish() {
-        callbackTarget = null;
+        callbackTargets.clear();
         unpublishClient();
         unsubscribeToServer();
     }

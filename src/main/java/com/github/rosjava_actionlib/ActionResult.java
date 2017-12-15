@@ -18,9 +18,7 @@ package com.github.rosjava_actionlib;
 
 import java.lang.reflect.Method;
 import org.ros.internal.message.Message;
-import org.ros.message.Time;
 import std_msgs.Header;
-import actionlib_msgs.GoalID;
 import actionlib_msgs.GoalStatus;
 
 /**
