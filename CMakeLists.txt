@@ -16,7 +16,7 @@ find_package(catkin REQUIRED rosjava_build_tools)
 # Note that the catkin_create_rosjava_xxx scripts will usually automatically
 # add tasks to this for you when you create subprojects.
 #catkin_rosjava_setup(installApp publishMavenJavaPublicationToMavenRepository)
-catkin_rosjava_setup(install publishMavenJavaPublicationToMavenRepository)
+catkin_rosjava_setup(install publish)
 
 catkin_package()
 
