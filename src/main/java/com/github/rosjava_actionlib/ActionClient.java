@@ -121,7 +121,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
         goalManager.setGoal(agMessage);
         goalPublisher.publish(agMessage);
 
-        return ActionClientFuture.createFromGoal(this, actionGoal);
+        return ActionClientFuture.createFromGoal(this, agMessage);
     }
 
     /**

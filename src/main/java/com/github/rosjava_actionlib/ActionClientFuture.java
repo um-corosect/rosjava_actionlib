@@ -28,6 +28,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
             ActionFuture<T_GOAL, T_FEEDBACK, T_RESULT>
             createFromGoal(ActionClient<T_GOAL, T_FEEDBACK, T_RESULT> ac, T_GOAL goal) {
 
+                
         GoalID goalId = ac.getGoalId(goal);
         ActionClientFuture<T_GOAL, T_FEEDBACK, T_RESULT> ret = new ActionClientFuture<>(ac, goalId);
         if (ac.isActive()) {
