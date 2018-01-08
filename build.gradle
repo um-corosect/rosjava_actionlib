@@ -45,11 +45,12 @@ dependencies {
     compile 'org.ros.rosjava_core:rosjava:[0.3,0.4)'
     compile 'org.apache.directory.studio:org.apache.commons.logging:[1.1,1.2)'
     testCompile 'junit:junit:4.12'
+    testCompile 'org.ros.rosjava_messages:actionlib_tutorials:[0.1,)'
 
     /* Example of a local subproject dependency */
     /* compile project(':sibling_gradle_project') */
 
-    //compile 'org.ros.rosjava_messages:actionlib_tutorials:[0.1,)'
+    
 }
 
 jar {

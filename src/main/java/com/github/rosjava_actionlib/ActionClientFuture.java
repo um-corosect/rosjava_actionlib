@@ -34,7 +34,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
         if (ac.isActive()) {
             log.warn("current goal STATE:" + ac.getGoalState() + "=" + ClientStates.translateState(ac.getGoalState()));
         }
-        ac.sendGoal(goal);
+        ac.sendGoalWire(goal);
         ac.attachListener(ret);
         return ret;
 

@@ -118,10 +118,12 @@ public class ActionClient<T_ACTION_GOAL extends Message,
             gid.setId(id);
         }
 
+        return ActionClientFuture.createFromGoal(this, agMessage);
+    }
+    
+    protected void sendGoalWire(T_ACTION_GOAL agMessage){
         goalManager.setGoal(agMessage);
         goalPublisher.publish(agMessage);
-
-        return ActionClientFuture.createFromGoal(this, agMessage);
     }
 
     /**
