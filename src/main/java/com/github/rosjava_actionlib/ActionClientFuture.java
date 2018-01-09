@@ -96,18 +96,21 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
     @Override
     public void resultReceived(T_RESULT msg) {
         ActionResult r = new ActionResult(msg);
-        if (r.getGoalStatusMessage().getGoalId() != goalid) {
+        log.fatal("got message " + r.getGoalStatusMessage().getGoalId().getId() );
+        if (!r.getGoalStatusMessage().getGoalId().getId().equals(goalid.getId())) {
+            log.fatal("wrong id, waiting for " + goalid.getId());
             return;
         }
 
         result = msg;
+        isDone = true;
         disconnect();
     }
 
     @Override
     public void feedbackReceived(T_FEEDBACK msg) {
         ActionFeedback f = new ActionFeedback(msg);
-        if (f.getGoalStatusMessage().getGoalId() != goalid) {
+        if (!f.getGoalStatusMessage().getGoalId().getId().equals(goalid.getId())) {
             return;
         }
 
@@ -117,7 +120,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
     @Override
     public void statusReceived(GoalStatusArray status) {
         for (GoalStatus a : status.getStatusList()) {
-            if (goalid != a.getGoalId()) {
+            if (!goalid.getId().equals(a.getGoalId().getId())) {
                 continue;
             }
             //CODE HERE

@@ -30,6 +30,8 @@ public class ClientGoalManager<T_ACTION_GOAL extends Message> {
 
     public ClientGoalManager(ActionGoal<T_ACTION_GOAL> ag) {
         actionGoal = ag;
+        stateMachine = new ClientStateMachine();
+        stateMachine.setState(ClientStateMachine.ClientStates.ERROR);
     }
 
     public void setGoal(ActionGoal<T_ACTION_GOAL> ag) {

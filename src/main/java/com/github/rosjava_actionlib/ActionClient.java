@@ -236,7 +236,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
         serverResult.addMessageListener(new MessageListener<T_ACTION_RESULT>() {
             @Override
             public void onNewMessage(T_ACTION_RESULT message) {
-                System.out.println(message);
+                //System.out.println(message);
                 gotResult(message);
             }
         });
