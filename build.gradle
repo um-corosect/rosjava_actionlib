@@ -15,7 +15,7 @@
  */
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14.1'
+    gradleVersion = '4.6'
 }
 
 repositories {
@@ -44,7 +44,7 @@ dependencies {
 
     compile 'org.ros.rosjava_core:rosjava:[0.3,0.4)'
     compile 'org.apache.directory.studio:org.apache.commons.logging:[1.1,1.2)'
-    compile 'org.ros.rosjava_messages:actionlib_msgs:[1.11,1.13)'
+    compile 'org.ros.rosjava_messages:actionlib_msgs:[1.11.0,1.14.0)'
     testCompile 'junit:junit:4.12'
     testCompile 'org.ros.rosjava_messages:actionlib_tutorials:[0.1,)'
 
