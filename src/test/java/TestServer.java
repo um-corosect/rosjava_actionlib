@@ -43,8 +43,7 @@ public class TestServer extends AbstractNodeMain implements ActionServerListener
         FibonacciActionResult result;
         String id;
 
-        as = new ActionServer<FibonacciActionGoal, FibonacciActionFeedback,
-                FibonacciActionResult>(node, "/fibonacci", FibonacciActionGoal._TYPE,
+        as = new ActionServer<>(node, "/fibonacci", FibonacciActionGoal._TYPE,
                 FibonacciActionFeedback._TYPE, FibonacciActionResult._TYPE);
 
         as.attachListener(this);

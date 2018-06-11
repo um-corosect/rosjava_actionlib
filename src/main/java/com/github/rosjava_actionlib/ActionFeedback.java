@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 
 /**
  * Class to encapsulate the action feedback object.
+ *
  * @author Ernesto Corbellini ecorbellini@ekumenlabs.com
  */
 public class ActionFeedback<T_ACTION_FEEDBACK extends Message> {

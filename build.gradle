@@ -25,6 +25,8 @@ plugins {
 
 apply plugin: 'catkin'
 apply plugin: 'ros-java'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.6'

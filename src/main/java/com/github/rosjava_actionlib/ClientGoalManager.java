@@ -30,14 +30,14 @@ public class ClientGoalManager<T_ACTION_GOAL extends Message> {
     public ClientGoalManager(ActionGoal<T_ACTION_GOAL> ag) {
         actionGoal = ag;
         stateMachine = new ClientStateMachine();
-        stateMachine.setState(ClientStateMachine.ClientStates.ERROR);
+        stateMachine.setState(ClientState.ERROR);
     }
 
     public void setGoal(ActionGoal<T_ACTION_GOAL> ag) {
         actionGoal = ag;
         if (stateMachine != null && stateMachine.isRunning()) stateMachine.setState(-3);
         stateMachine = new ClientStateMachine();
-        stateMachine.setState(ClientStateMachine.ClientStates.WAITING_FOR_GOAL_ACK);
+        stateMachine.setState(ClientState.WAITING_FOR_GOAL_ACK);
     }
 
     public void setGoal(T_ACTION_GOAL agm) {
@@ -58,8 +58,16 @@ public class ClientGoalManager<T_ACTION_GOAL extends Message> {
         stateMachine.transition(status);
     }
 
-    public int getGoalState() {
+    public int getGoalStateInteger() {
         int ret = -666;
+        if (stateMachine != null) {
+            ret = stateMachine.getState().getValue();
+        }
+        return ret;
+    }
+
+    public ClientState getGoalState() {
+        ClientState ret = ClientState.UNKNOWN_STATE;
         if (stateMachine != null) {
             ret = stateMachine.getState();
         }

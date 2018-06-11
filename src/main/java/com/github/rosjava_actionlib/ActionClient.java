@@ -103,8 +103,8 @@ public class ActionClient<T_ACTION_GOAL extends Message,
      * Publish an action goal to the server. The type of the action goal message
      * is dependent on the application.
      *
-     * @param goal The action goal message.
-     * @param id   A string containing the ID for the goal. The ID should represent
+     * @param agMessage The action goal message.
+     * @param id        A string containing the ID for the goal. The ID should represent
      */
     public ActionFuture<T_ACTION_GOAL, T_ACTION_FEEDBACK, T_ACTION_RESULT> sendGoal(T_ACTION_GOAL agMessage, String id) {
         GoalID gid = getGoalId(agMessage);
@@ -126,7 +126,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
      * Publish an action goal to the server. The type of the action goal message
      * is dependent on the application. A goal ID will be automatically generated.
      *
-     * @param goal The action goal message.
+     * @param agMessage The action goal message.
      */
     public ActionFuture<T_ACTION_GOAL, T_ACTION_FEEDBACK, T_ACTION_RESULT> sendGoal(T_ACTION_GOAL agMessage) {
         return sendGoal(agMessage, "");
@@ -402,11 +402,16 @@ public class ActionClient<T_ACTION_GOAL extends Message,
      * Get the current state of the action goal as being tracked by the client.
      *
      * @return The state of the goal.
-     * @see ClientStateMachine.ClientStates
+     * @see ClientState
      */
-    public int getGoalState() {
+    public int getGoalStateInteger() {
+        return goalManager.getGoalState().getValue();
+    }
+
+    public ClientState getGoalState() {
         return goalManager.getGoalState();
     }
+
 
     public boolean isActive() {
         return goalManager.stateMachine.isRunning();

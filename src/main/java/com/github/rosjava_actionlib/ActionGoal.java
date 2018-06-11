@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
 
 /**
  * Class to encapsulate the action goal object.
+ *
  * @author Ernesto Corbellini ecorbellini@ekumenlabs.com
  */
 public class ActionGoal<T_ACTION_GOAL extends Message> {
@@ -39,6 +40,7 @@ public class ActionGoal<T_ACTION_GOAL extends Message> {
 
     /**
      * Return the sequence number of the action goal message's header.
+     *
      * @return The sequence number of the std_msgs.Header or -1 if there is an error.
      * @see std_msgs.Header
      */
@@ -59,7 +61,8 @@ public class ActionGoal<T_ACTION_GOAL extends Message> {
 
     /**
      * Set the sequence number of the action goal message's header.
-     * @param  seq The sequence number for the std_msgs.Header.
+     *
+     * @param seq The sequence number for the std_msgs.Header.
      * @see std_msgs.Header
      */
     public void setHeaderSequence(int seq) {
@@ -77,6 +80,7 @@ public class ActionGoal<T_ACTION_GOAL extends Message> {
 
     /**
      * Return the time stamp of the action goal message's header.
+     *
      * @return The time stamp (org.ros.message.Time) of the std_msgs.Header or null otherwise.
      * @see org.ros.message.Time
      */
@@ -97,6 +101,7 @@ public class ActionGoal<T_ACTION_GOAL extends Message> {
 
     /**
      * Sets the time stamp for the action goal message's header.
+     *
      * @param t The time stamp (org.ros.message.Time) of the std_msgs.Header.
      * @see org.ros.message.Time
      */
@@ -123,6 +128,7 @@ public class ActionGoal<T_ACTION_GOAL extends Message> {
 
     /**
      * Return the standard actionlib header message for this action goal.
+     *
      * @return The std_msgs.Header object or null otherwise.
      * @see std_msgs.Header
      */
@@ -161,8 +167,9 @@ public class ActionGoal<T_ACTION_GOAL extends Message> {
 
     /**
      * Set the action goal's goal ID string and timestamp.
+     *
      * @param id Identification string for this goal.
-     * @param t Time stamp (org.ros.message.Time).
+     * @param t  Time stamp (org.ros.message.Time).
      */
     public void setGoalId(String id, Time t) {
         GoalID gid = getGoalIdMessage();
@@ -190,6 +197,7 @@ public class ActionGoal<T_ACTION_GOAL extends Message> {
 
     /**
      * Return the actionlib GoalID message for this action goal.
+     *
      * @return The actionlib_msgs.GoalID object or null otherwise.
      * @see actionlib_msgs.GoalID
      */

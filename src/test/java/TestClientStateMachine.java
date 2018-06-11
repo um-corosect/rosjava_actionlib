@@ -1,9 +1,11 @@
+import com.github.rosjava_actionlib.ClientState;
 import com.github.rosjava_actionlib.ClientStateMachine;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.Vector;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -18,8 +20,8 @@ public class TestClientStateMachine {
 
     @Test
     public void testGetState() {
-        int expectedState = ClientStateMachine.ClientStates.WAITING_FOR_GOAL_ACK;
-        int actualState;
+        ClientState expectedState = ClientState.WAITING_FOR_GOAL_ACK;
+        ClientState actualState;
         subject.setState(expectedState);
         actualState = subject.getState();
         assertEquals(expectedState, actualState);
@@ -27,7 +29,7 @@ public class TestClientStateMachine {
 
     @Test
     public void testSetState() {
-        int expectedState = ClientStateMachine.ClientStates.WAITING_FOR_GOAL_ACK;
+        ClientState expectedState = ClientState.WAITING_FOR_GOAL_ACK;
         assertEquals(subject.getState(), 0);
         subject.setState(expectedState);
         assertEquals(expectedState, subject.getState());
@@ -36,7 +38,7 @@ public class TestClientStateMachine {
     @Test
     public void testUpdateStatusWhenStateIsNotDone() {
         int expectedStatus = 7;
-        subject.setState(ClientStateMachine.ClientStates.WAITING_FOR_GOAL_ACK);
+        subject.setState(ClientState.WAITING_FOR_GOAL_ACK);
         assertEquals(0, subject.getLatestGoalStatus());
         subject.updateStatus(expectedStatus);
         assertEquals(expectedStatus, subject.getLatestGoalStatus());
@@ -44,7 +46,7 @@ public class TestClientStateMachine {
 
     @Test
     public void testUpdateStatusWhenStateIsDone() {
-        subject.setState(ClientStateMachine.ClientStates.DONE);
+        subject.setState(ClientState.DONE);
         assertEquals(0, subject.getLatestGoalStatus());
         subject.updateStatus(7);
         assertEquals(0, subject.getLatestGoalStatus());
@@ -52,31 +54,31 @@ public class TestClientStateMachine {
 
     @Test
     public void testCancelOnCancellableStates() {
-        checkCancelOnInitialCancellableState(ClientStateMachine.ClientStates.WAITING_FOR_GOAL_ACK);
-        checkCancelOnInitialCancellableState(ClientStateMachine.ClientStates.PENDING);
-        checkCancelOnInitialCancellableState(ClientStateMachine.ClientStates.ACTIVE);
+        checkCancelOnInitialCancellableState(ClientState.WAITING_FOR_GOAL_ACK);
+        checkCancelOnInitialCancellableState(ClientState.PENDING);
+        checkCancelOnInitialCancellableState(ClientState.ACTIVE);
     }
 
     @Test
     public void testCancelOnNonCancellableStates() {
-        checkCancelOnInitialNonCancellableState(ClientStateMachine.ClientStates.INVALID_TRANSITION);
-        checkCancelOnInitialNonCancellableState(ClientStateMachine.ClientStates.NO_TRANSITION);
-        checkCancelOnInitialNonCancellableState(ClientStateMachine.ClientStates.WAITING_FOR_RESULT);
-        checkCancelOnInitialNonCancellableState(ClientStateMachine.ClientStates.WAITING_FOR_CANCEL_ACK);
-        checkCancelOnInitialNonCancellableState(ClientStateMachine.ClientStates.RECALLING);
-        checkCancelOnInitialNonCancellableState(ClientStateMachine.ClientStates.PREEMPTING);
-        checkCancelOnInitialNonCancellableState(ClientStateMachine.ClientStates.DONE);
-        checkCancelOnInitialNonCancellableState(ClientStateMachine.ClientStates.LOST);
+        checkCancelOnInitialNonCancellableState(ClientState.INVALID_TRANSITION);
+        checkCancelOnInitialNonCancellableState(ClientState.NO_TRANSITION);
+        checkCancelOnInitialNonCancellableState(ClientState.WAITING_FOR_RESULT);
+        checkCancelOnInitialNonCancellableState(ClientState.WAITING_FOR_CANCEL_ACK);
+        checkCancelOnInitialNonCancellableState(ClientState.RECALLING);
+        checkCancelOnInitialNonCancellableState(ClientState.PREEMPTING);
+        checkCancelOnInitialNonCancellableState(ClientState.DONE);
+        checkCancelOnInitialNonCancellableState(ClientState.LOST);
     }
 
-    private void checkCancelOnInitialCancellableState(int initialState) {
+    private void checkCancelOnInitialCancellableState(ClientState initialState) {
         subject.setState(initialState);
         assertTrue("Failed test on initial state " + initialState, subject.cancel());
-        assertEquals("Failed test on initial state " + initialState, ClientStateMachine.ClientStates.WAITING_FOR_CANCEL_ACK, subject.getState());
+        assertEquals("Failed test on initial state " + initialState, ClientState.WAITING_FOR_CANCEL_ACK, subject.getState());
     }
 
 
-    private void checkCancelOnInitialNonCancellableState(int initialState) {
+    private void checkCancelOnInitialNonCancellableState(ClientState initialState) {
         subject.setState(initialState);
         assertFalse("Failed test on initial state " + initialState, subject.cancel());
         assertEquals("Failed test on initial state " + initialState, initialState, subject.getState());
@@ -84,47 +86,47 @@ public class TestClientStateMachine {
 
     @Test
     public void testResultReceivedWhileWaitingForResult() {
-        subject.setState(ClientStateMachine.ClientStates.WAITING_FOR_RESULT);
+        subject.setState(ClientState.WAITING_FOR_RESULT);
         subject.resultReceived();
-        assertEquals(ClientStateMachine.ClientStates.DONE, subject.getState());
+        assertEquals(ClientState.DONE, subject.getState());
     }
 
     @Test
     public void testResultReceivedWhileNotWaitingForResult() {
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.INVALID_TRANSITION);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.NO_TRANSITION);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.WAITING_FOR_GOAL_ACK);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.PENDING);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.ACTIVE);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.WAITING_FOR_CANCEL_ACK);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.RECALLING);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.PREEMPTING);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.DONE);
-        checkResultReceivedWhileNotWaitingForResult(ClientStateMachine.ClientStates.LOST);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.INVALID_TRANSITION);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.NO_TRANSITION);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.WAITING_FOR_GOAL_ACK);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.PENDING);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.ACTIVE);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.WAITING_FOR_CANCEL_ACK);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.RECALLING);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.PREEMPTING);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.DONE);
+        checkResultReceivedWhileNotWaitingForResult(ClientState.LOST);
     }
 
-    private void checkResultReceivedWhileNotWaitingForResult(int state) {
+    private void checkResultReceivedWhileNotWaitingForResult(ClientState state) {
         subject.setState(state);
         subject.resultReceived();
-        assertEquals("Failed test on initial state " + state, ClientStateMachine.ClientStates.ERROR, subject.getState());
+        assertEquals("Failed test on initial state " + state, ClientState.ERROR, subject.getState());
     }
 
     @Test
     public void testGetTrasition() {
-        Vector<Integer> expected;
-        expected = new Vector<>(Arrays.asList(ClientStateMachine.ClientStates.PENDING));
-        checkGetTransition(ClientStateMachine.ClientStates.WAITING_FOR_GOAL_ACK,
+        LinkedList<ClientState> expected;
+        expected = new LinkedList<>(Arrays.asList(ClientState.PENDING));
+        checkGetTransition(ClientState.WAITING_FOR_GOAL_ACK,
                 actionlib_msgs.GoalStatus.PENDING, expected);
 
-        expected = new Vector<>(Arrays.asList(ClientStateMachine.ClientStates.PENDING,
-                ClientStateMachine.ClientStates.WAITING_FOR_RESULT));
-        checkGetTransition(ClientStateMachine.ClientStates.WAITING_FOR_GOAL_ACK,
+        expected = new LinkedList<>(Arrays.asList(ClientState.PENDING,
+                ClientState.WAITING_FOR_RESULT));
+        checkGetTransition(ClientState.WAITING_FOR_GOAL_ACK,
                 actionlib_msgs.GoalStatus.REJECTED, expected);
     }
 
-    private void checkGetTransition(int initialState, int goalStatus, Vector<Integer> expected) {
+    private void checkGetTransition(ClientState initialState, int goalStatus, List<ClientState> expected) {
         subject.setState(initialState);
-        Vector<Integer> output = subject.getTransition(goalStatus);
+        List<Integer> output = subject.getTransitionInteger(goalStatus);
         assertEquals(expected, output);
     }
 }

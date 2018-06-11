@@ -3,7 +3,6 @@ package com.github.rosjava_actionlib;
 import actionlib_msgs.GoalID;
 import actionlib_msgs.GoalStatus;
 import actionlib_msgs.GoalStatusArray;
-import com.github.rosjava_actionlib.ClientStateMachine.ClientStates;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.ros.internal.message.Message;
@@ -18,7 +17,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
 
     final GoalID goalid;
     final ActionClient<T_GOAL, T_FEEDBACK, T_RESULT> ac;
-    boolean isDone = false;
+    ClientGoalManager goalManager = new ClientGoalManager(new ActionGoal<T_GOAL>());
     T_FEEDBACK latestFeedback = null;
     T_RESULT result = null;
 
@@ -32,8 +31,9 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
         GoalID goalId = ac.getGoalId(goal);
         ActionClientFuture<T_GOAL, T_FEEDBACK, T_RESULT> ret = new ActionClientFuture<>(ac, goalId);
         if (ac.isActive()) {
-            log.warn("current goal STATE:" + ac.getGoalState() + "=" + ClientStates.translateState(ac.getGoalState()));
+            log.warn("current goal STATE:" + ac.getGoalState() + "=" + ac.getGoalState().getValue());
         }
+        ret.goalManager.setGoal(goal);
         ac.sendGoalWire(goal);
         ac.attachListener(ret);
         return ret;
@@ -51,15 +51,20 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
     }
 
     @Override
+    public ClientState getCurrentState() {
+        return goalManager.stateMachine.getState();
+    }
+
+    @Override
     public boolean cancel(boolean bln) {
         ac.sendCancel(goalid);
-        isDone = true;
+        goalManager.cancelGoal();
         return true;
     }
 
     @Override
     public boolean isCancelled() {
-        if (isDone) {
+        if (goalManager.stateMachine.isRunning()) {
             return result == null;
         } else {
             return false;
@@ -68,12 +73,12 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
 
     @Override
     public boolean isDone() {
-        return isDone;
+        return !goalManager.stateMachine.isRunning();
     }
 
     @Override
     public T_RESULT get() throws InterruptedException, ExecutionException {
-        while (!isDone) {
+        while (goalManager.stateMachine.isRunning()) {
             Thread.sleep(100);
         }
         disconnect();
@@ -83,7 +88,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
     @Override
     public T_RESULT get(long l, TimeUnit tu) throws InterruptedException, ExecutionException, TimeoutException {
         long timeout = System.currentTimeMillis() + tu.toMillis(l);
-        while (!isDone) {
+        while (goalManager.stateMachine.isRunning()) {
             if (timeout > System.currentTimeMillis()) {
                 throw new TimeoutException();
             }
@@ -102,8 +107,10 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
             return;
         }
 
+        goalManager.updateStatus(r.getGoalStatusMessage().getStatus());
+        goalManager.resultReceived();
+
         result = msg;
-        isDone = true;
         disconnect();
     }
 
@@ -114,6 +121,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
             return;
         }
 
+        goalManager.updateStatus(f.getGoalStatusMessage().getStatus());
         latestFeedback = msg;
     }
 
@@ -123,7 +131,9 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
             if (!goalid.getId().equals(a.getGoalId().getId())) {
                 continue;
             }
-            //CODE HERE
+
+            goalManager.updateStatus(a.getStatus());
+
         }
     }
 

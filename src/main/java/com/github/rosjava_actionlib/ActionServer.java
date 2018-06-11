@@ -34,6 +34,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Class to encapsulate the actiolib server's communication and goal management.
+ *
  * @author Ernesto Corbellini ecorbellini@ekumenlabs.com
  */
 public class ActionServer<T_ACTION_GOAL extends Message,
@@ -68,14 +69,15 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Constructor.
-     * @param node Object representing a node connected to a ROS master.
-     * @param actionName String that identifies the name of this action. This name
-     * is used for naming the ROS topics.
-     * @param actionGoalType String holding the type for the action goal message.
+     *
+     * @param node               Object representing a node connected to a ROS master.
+     * @param actionName         String that identifies the name of this action. This name
+     *                           is used for naming the ROS topics.
+     * @param actionGoalType     String holding the type for the action goal message.
      * @param actionFeedbackType String holding the type for the action feedback
-     * message.
-     * @param actionResultType String holding the type for the action result
-     * message.
+     *                           message.
+     * @param actionResultType   String holding the type for the action result
+     *                           message.
      */
     public ActionServer(ConnectedNode node, String actionName, String actionGoalType,
                         String actionFeedbackType, String actionResultType) {
@@ -92,8 +94,9 @@ public class ActionServer<T_ACTION_GOAL extends Message,
      * Attach a listener to this actionlib server. The listener must implement the
      * ActionServerListener interface which provides callback methods for each
      * incoming message and event.
+     *
      * @param target An object that implements the ActionServerListener interface.
-     * This object will receive the callbacks with the events.
+     *               This object will receive the callbacks with the events.
      */
     public void attachListener(ActionServerListener target) {
         callbackTarget = target;
@@ -101,6 +104,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Publish the current status information for the tracked goals on the /status topic.
+     *
      * @param status GoalStatusArray message containing the status to send.
      * @see actionlib_msgs.GoalStatusArray
      */
@@ -110,6 +114,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Publish a feedback message on the /feedback topic.
+     *
      * @param feedback An action feedback message to send.
      */
     public void sendFeedback(T_ACTION_FEEDBACK feedback) {
@@ -118,6 +123,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Publish result message on the /result topic.
+     *
      * @param result The action result message to send.
      */
     public void sendResult(T_ACTION_RESULT result) {
@@ -126,6 +132,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Publish the action server topics: /status, /feedback, /result
+     *
      * @param node The object representing a node connected to a ROS master.
      */
     private void publishServer(ConnectedNode node) {
@@ -160,6 +167,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Subscribe to the action client's topics: goal and cancel.
+     *
      * @param node The ROS node connected to the master.
      */
     private void subscribeToClient(ConnectedNode node) {
@@ -267,6 +275,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Returns the goal ID object related to a given action goal.
+     *
      * @param goal An action goal message.
      * @return The goal ID object.
      */
@@ -284,6 +293,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Get the current state of the referenced goal.
+     *
      * @param goalId String representing the ID of the goal.
      * @return The current state of the goal or -100 if the goal ID is not tracked.
      * @see actionlib_msgs.GoalStatus
@@ -311,7 +321,8 @@ public class ActionServer<T_ACTION_GOAL extends Message,
 
     /**
      * Set goal ID and state information to the goal status message.
-     * @param gstat GoalStatus message.
+     *
+     * @param gstat     GoalStatus message.
      * @param gidString String identifying the goal.
      * @see actionlib_msgs.GoalStatus
      */

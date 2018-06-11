@@ -1,17 +1,12 @@
 # Actionlib for Rosjava
 A pure java implementation of [actionlib](http://wiki.ros.org/actionlib) for [rosjava](http://wiki.ros.org/rosjava).
-Features implemented:
 
-Latest release: [v0.2.0](https://github.com/ernestmc/rosjava_actionlib/releases/tag/v0.2.0)
-
-New in this release:
-* Added goal state tracking to the client.
-* Added a waitForActionServerToStart method to the client.
+based on: github.com/ernestmc/rosjava_actionlib
 
 ## Requirements:
 * ROS Indigo http://wiki.ros.org/
 * Rosjava ```$ sudo apt-get install ros-indigo-rosjava``` http://wiki.ros.org/rosjava/Tutorials/indigo/Installation
-* Java 1.7 or greater (OpenJDK should work)
+* Java 1.8 or greater (OpenJDK should work)
 * Also make sure you have the following packages: ```ros-indigo-actionlib``` ```ros-indigo-actionlib-tutorials``` ```ros-indigo-genjava```
 
 You can find a video tutorial showing how to install and test the library following the instructions below:

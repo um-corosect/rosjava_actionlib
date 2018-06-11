@@ -21,7 +21,7 @@ import actionlib_msgs.GoalStatusArray;
 import actionlib_tutorials.*;
 import com.github.rosjava_actionlib.ActionClient;
 import com.github.rosjava_actionlib.ActionClientListener;
-import com.github.rosjava_actionlib.ClientStateMachine;
+import com.github.rosjava_actionlib.ClientState;
 import org.apache.commons.logging.Log;
 import org.ros.message.Duration;
 import org.ros.namespace.GraphName;
@@ -81,7 +81,7 @@ public class TestClient extends AbstractNodeMain implements ActionClientListener
         gid = ac.getGoalId(goalMessage);
         System.out.println("Sent goal with ID: " + gid.getId());
         System.out.println("Waiting for goal to complete...");
-        while (ac.getGoalState() != ClientStateMachine.ClientStates.DONE) {
+        while (ac.getGoalState() != ClientState.DONE) {
             sleep(1);
         }
         System.out.println("Goal completed!\n");
@@ -92,7 +92,7 @@ public class TestClient extends AbstractNodeMain implements ActionClientListener
         System.out.println("Sent goal with ID: " + gid.getId());
         System.out.println("Cancelling this goal...");
         ac.sendCancel(gid);
-        while (ac.getGoalState() != ClientStateMachine.ClientStates.DONE) {
+        while (ac.getGoalState() != ClientState.DONE) {
             sleep(1);
         }
         System.out.println("Goal cancelled succesfully.\n");
@@ -131,7 +131,7 @@ public class TestClient extends AbstractNodeMain implements ActionClientListener
         for (GoalStatus gs : statusList) {
             log.info("GoalID: " + gs.getGoalId().getId() + " -- GoalStatus: " + gs.getStatus() + " -- " + gs.getText());
         }
-        log.info("Current state of our goal: " + ClientStateMachine.ClientStates.translateState(ac.getGoalState()));
+        log.info("Current state of our goal: " + ac.getGoalState());
     }
 
     void sleep(long msec) {
