@@ -26,12 +26,9 @@ import org.ros.message.Duration;
 import org.ros.message.Time;
 import org.ros.internal.message.Message;
 
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.*;
 import java.util.List;
 import java.lang.reflect.Method;
-import java.util.concurrent.TimeoutException;
 
 import actionlib_msgs.GoalStatusArray;
 import actionlib_msgs.GoalStatus;
@@ -62,7 +59,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
     private Subscriber<GoalStatusArray> serverStatus = null;
     private ConnectedNode node = null;
     private String actionName;
-    private List<ActionClientListener> callbackTargets = new LinkedList<>();
+    private List<ActionClientListener> callbackTargets = new CopyOnWriteArrayList<>();
     GoalIDGenerator goalIdGenerator = null;
     private volatile boolean statusReceivedFlag = false;
     private volatile boolean feedbackPublisherFlag = false;
