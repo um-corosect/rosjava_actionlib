@@ -16,26 +16,25 @@
 
 package com.github.rosjava_actionlib;
 
-import org.ros.node.ConnectedNode;
-import org.ros.node.topic.Subscriber;
-import org.ros.node.topic.Publisher;
-import org.ros.internal.node.topic.PublisherIdentifier;
-import org.ros.node.topic.DefaultSubscriberListener;
-import org.ros.message.MessageListener;
-import org.ros.message.Duration;
-import org.ros.message.Time;
-import org.ros.internal.message.Message;
-
-import java.util.concurrent.*;
-import java.util.List;
-import java.lang.reflect.Method;
-
-import actionlib_msgs.GoalStatusArray;
-import actionlib_msgs.GoalStatus;
 import actionlib_msgs.GoalID;
-import java.util.LinkedList;
+import actionlib_msgs.GoalStatus;
+import actionlib_msgs.GoalStatusArray;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.ros.internal.message.Message;
+import org.ros.internal.node.topic.PublisherIdentifier;
+import org.ros.message.Duration;
+import org.ros.message.MessageListener;
+import org.ros.message.Time;
+import org.ros.node.ConnectedNode;
+import org.ros.node.topic.DefaultSubscriberListener;
+import org.ros.node.topic.Publisher;
+import org.ros.node.topic.Subscriber;
+
+import java.lang.reflect.Method;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Client implementation for actionlib.
@@ -95,7 +94,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
     public void attachListener(ActionClientListener target) {
         callbackTargets.add(target);
     }
-    
+
     public void detachListener(ActionClientListener target) {
         callbackTargets.remove(target);
     }
@@ -117,8 +116,8 @@ public class ActionClient<T_ACTION_GOAL extends Message,
 
         return ActionClientFuture.createFromGoal(this, agMessage);
     }
-    
-    protected void sendGoalWire(T_ACTION_GOAL agMessage){
+
+    protected void sendGoalWire(T_ACTION_GOAL agMessage) {
         goalManager.setGoal(agMessage);
         goalPublisher.publish(agMessage);
     }
@@ -277,7 +276,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
         }
         goalManager.resultReceived();
         // Propagate the callback
-        for(ActionClientListener a : callbackTargets) {
+        for (ActionClientListener a : callbackTargets) {
             a.resultReceived(message);
         }
     }
@@ -294,7 +293,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
             goalManager.updateStatus(af.getGoalStatusMessage().getStatus());
         }
         // Propagate the callback
-        for(ActionClientListener a : callbackTargets) {
+        for (ActionClientListener a : callbackTargets) {
             a.feedbackReceived(message);
         }
     }
@@ -316,7 +315,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
             log.info("Status update is not for our goal!");
         }
         // Propagate the callback
-        for(ActionClientListener a : callbackTargets) {
+        for (ActionClientListener a : callbackTargets) {
             a.statusReceived(message);
         }
     }

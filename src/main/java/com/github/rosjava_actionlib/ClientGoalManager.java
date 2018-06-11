@@ -17,11 +17,10 @@
 package com.github.rosjava_actionlib;
 
 import org.ros.internal.message.Message;
-import actionlib_msgs.GoalID;
-import actionlib_msgs.GoalStatus;
 
 /**
  * Class that binds and action goal with a state machine to track its state.
+ *
  * @author Ernesto Corbellini ecorbellini@ekumenlabs.com
  */
 public class ClientGoalManager<T_ACTION_GOAL extends Message> {

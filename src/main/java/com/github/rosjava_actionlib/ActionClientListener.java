@@ -1,12 +1,12 @@
 /**
  * Copyright 2015 Ekumen www.ekumenlabs.com
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,8 +16,8 @@
 
 package com.github.rosjava_actionlib;
 
-import org.ros.internal.message.Message;
 import actionlib_msgs.GoalStatusArray;
+import org.ros.internal.message.Message;
 
 
 /**
@@ -27,25 +27,25 @@ import actionlib_msgs.GoalStatusArray;
  * @author Ernesto Corbellini ecorbellini@ekumenlabs.com
  */
 public interface ActionClientListener<T_ACTION_FEEDBACK extends Message,
-  T_ACTION_RESULT extends Message> {
-  /**
-   * Called when a result message is received from the server.
-   * @param result Result message from the server. The type of this message
-   * depends on the application.
-   */
-  void resultReceived(T_ACTION_RESULT result);
+        T_ACTION_RESULT extends Message> {
+    /**
+     * Called when a result message is received from the server.
+     * @param result Result message from the server. The type of this message
+     * depends on the application.
+     */
+    void resultReceived(T_ACTION_RESULT result);
 
-  /**
-   * Called when a feedback message is received from the server.
-   * @param feedback The feedback message received from the server. The type of
-   * this message depends on the application.
-   */
-  void feedbackReceived(T_ACTION_FEEDBACK feedback);
+    /**
+     * Called when a feedback message is received from the server.
+     * @param feedback The feedback message received from the server. The type of
+     * this message depends on the application.
+     */
+    void feedbackReceived(T_ACTION_FEEDBACK feedback);
 
-  /**
-   * Called when a status message is received from the server.
-   * @param status The status message received from the server.
-   * @see actionlib_msgs.GoalStatusArray
-   */
-  void statusReceived(GoalStatusArray status);
+    /**
+     * Called when a status message is received from the server.
+     * @param status The status message received from the server.
+     * @see actionlib_msgs.GoalStatusArray
+     */
+    void statusReceived(GoalStatusArray status);
 }

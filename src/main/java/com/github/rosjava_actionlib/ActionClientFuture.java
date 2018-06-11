@@ -4,14 +4,14 @@ import actionlib_msgs.GoalID;
 import actionlib_msgs.GoalStatus;
 import actionlib_msgs.GoalStatusArray;
 import com.github.rosjava_actionlib.ClientStateMachine.ClientStates;
-import java.lang.reflect.Method;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.ros.internal.message.Message;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.ros.internal.message.Message;
 
 public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Message, T_RESULT extends Message>
         implements ActionFuture<T_GOAL, T_FEEDBACK, T_RESULT>, ActionClientListener<T_FEEDBACK, T_RESULT> {
@@ -25,10 +25,10 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
     private static Log log = LogFactory.getLog(ActionClientFuture.class);
 
     static <T_GOAL extends Message, T_FEEDBACK extends Message, T_RESULT extends Message>
-            ActionFuture<T_GOAL, T_FEEDBACK, T_RESULT>
-            createFromGoal(ActionClient<T_GOAL, T_FEEDBACK, T_RESULT> ac, T_GOAL goal) {
+    ActionFuture<T_GOAL, T_FEEDBACK, T_RESULT>
+    createFromGoal(ActionClient<T_GOAL, T_FEEDBACK, T_RESULT> ac, T_GOAL goal) {
 
-                
+
         GoalID goalId = ac.getGoalId(goal);
         ActionClientFuture<T_GOAL, T_FEEDBACK, T_RESULT> ret = new ActionClientFuture<>(ac, goalId);
         if (ac.isActive()) {
@@ -96,7 +96,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
     @Override
     public void resultReceived(T_RESULT msg) {
         ActionResult r = new ActionResult(msg);
-        log.fatal("got message " + r.getGoalStatusMessage().getGoalId().getId() );
+        log.fatal("got message " + r.getGoalStatusMessage().getGoalId().getId());
         if (!r.getGoalStatusMessage().getGoalId().getId().equals(goalid.getId())) {
             log.fatal("wrong id, waiting for " + goalid.getId());
             return;
@@ -162,9 +162,9 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
                 return this.get(l, tu) != null;
             }
         };
-        
+
     }
-    
+
     @Override
     public Future<Void> toVoidFuture() {
 
@@ -198,7 +198,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
                 return null;
             }
         };
-        
+
     }
 
 }
