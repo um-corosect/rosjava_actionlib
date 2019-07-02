@@ -101,7 +101,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
     @Override
     public void resultReceived(T_RESULT msg) {
         ActionResult r = new ActionResult(msg);
-        log.fatal("got message " + r.getGoalStatusMessage().getGoalId().getId());
+        log.debug("got result message " + r.getGoalStatusMessage().getGoalId().getId());
         if (!r.getGoalStatusMessage().getGoalId().getId().equals(goalid.getId())) {
             log.fatal("wrong id, waiting for " + goalid.getId());
             return;
