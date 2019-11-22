@@ -312,7 +312,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
             // update the goal status tracking
             goalManager.updateStatus(gstat.getStatus());
         } else {
-            log.info("Status update is not for our goal!");
+            //log.debug("Status update is not for our goal!");
         }
         // Propagate the callback
         for (ActionClientListener a : callbackTargets) {
@@ -333,7 +333,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
         GoalStatus gstat = null;
         List<GoalStatus> statusList = statusMessage.getStatusList();
         for (GoalStatus s : statusList) {
-            log.info("Found >> " + s.getGoalId().getId() + " when searching for >> " + goalManager.actionGoal.getGoalId());
+            //log.debug("Found >> " + s.getGoalId().getId() + " when searching for >> " + goalManager.actionGoal.getGoalId());
             if (s.getGoalId().getId().equals(goalManager.actionGoal.getGoalId())) {
                 // this is the goal we are interested in
                 gstat = s;
