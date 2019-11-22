@@ -77,7 +77,7 @@ public class ClientStateMachine {
         nextStates = getTransition(goalStatus);
         iterStates = nextStates.iterator();
 
-        log.info("ClientStateMachine - State transition invoked.");
+        //log.debug("ClientStateMachine - State transition invoked.");
 
         while (iterStates.hasNext()) {
             this.state = iterStates.next();
