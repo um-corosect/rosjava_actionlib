@@ -367,6 +367,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
         Time finalTime = node.getCurrentTime().add(timeout);
 
         while (!res && gotTime) {
+            Thread.sleep(100); // sleep 100 milliseconds TODO need to catch exception?
             res = goalPublisher.hasSubscribers() &&
                     cancelPublisher.hasSubscribers() &&
                     feedbackPublisherFlag &&
