@@ -29,7 +29,7 @@ public enum ClientState {
     }
 
     // Mapping states to state id
-    private static final Map<Integer, ClientState> _map = new HashMap<>();
+    private static final Map<Integer, ClientState> _map = new HashMap<Integer, ClientState>();
 
     static {
         for (ClientState state : ClientState.values())

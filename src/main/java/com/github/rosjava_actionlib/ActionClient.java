@@ -58,7 +58,7 @@ public class ActionClient<T_ACTION_GOAL extends Message,
     private Subscriber<GoalStatusArray> serverStatus = null;
     private ConnectedNode node = null;
     private String actionName;
-    private List<ActionClientListener> callbackTargets = new CopyOnWriteArrayList<>();
+    private List<ActionClientListener> callbackTargets = new CopyOnWriteArrayList<ActionClientListener>();
     GoalIDGenerator goalIdGenerator = null;
     private volatile boolean statusReceivedFlag = false;
     private volatile boolean feedbackPublisherFlag = false;

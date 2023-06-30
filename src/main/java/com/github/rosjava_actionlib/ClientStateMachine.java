@@ -95,12 +95,17 @@ public class ClientStateMachine {
      * to the final goal state.
      */
     public List<Integer> getTransitionInteger(int goalStatus) {
-        return getTransition(goalStatus).stream().map(ClientState::getValue).collect(Collectors.toList());
+        List<Integer> list = new ArrayList<Integer>();
+        for(ClientState state : getTransition(goalStatus))
+        {
+            list.add(state.getValue());
+        }
+        return list;
     }
 
 
     public List<ClientState> getTransition(int goalStatus) {
-        List<ClientState> stateList = new LinkedList<>();
+        List<ClientState> stateList = new LinkedList<ClientState>();
 
         switch (this.state) {
             case WAITING_FOR_GOAL_ACK:
@@ -386,7 +391,7 @@ public class ClientStateMachine {
      * @return True if the goal can be cancelled, false otherwise.
      */
     public boolean cancel() {
-        ArrayList<ClientState> cancellableStates = new ArrayList<>(Arrays.asList(ClientState.WAITING_FOR_GOAL_ACK,
+        ArrayList<ClientState> cancellableStates = new ArrayList<ClientState>(Arrays.asList(ClientState.WAITING_FOR_GOAL_ACK,
                 ClientState.PENDING, ClientState.ACTIVE));
         boolean shouldCancel = cancellableStates.contains(state);
 

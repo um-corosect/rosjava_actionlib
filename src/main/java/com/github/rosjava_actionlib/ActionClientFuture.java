@@ -29,7 +29,7 @@ public class ActionClientFuture<T_GOAL extends Message, T_FEEDBACK extends Messa
 
 
         GoalID goalId = ac.getGoalId(goal);
-        ActionClientFuture<T_GOAL, T_FEEDBACK, T_RESULT> ret = new ActionClientFuture<>(ac, goalId);
+        ActionClientFuture<T_GOAL, T_FEEDBACK, T_RESULT> ret = new ActionClientFuture<T_GOAL, T_FEEDBACK, T_RESULT>(ac, goalId);
         if (ac.isActive()) {
             log.warn("current goal STATE:" + ac.getGoalState() + "=" + ac.getGoalState().getValue());
         }

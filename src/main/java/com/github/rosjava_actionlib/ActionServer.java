@@ -31,6 +31,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Vector;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Class to encapsulate the actiolib server's communication and goal management.
@@ -64,8 +65,7 @@ public class ActionServer<T_ACTION_GOAL extends Message,
     private String actionName;
     private ActionServerListener callbackTarget = null;
     private Timer statusTick = new Timer();
-    private HashMap<String, ServerGoal> goalTracker = new HashMap<String,
-            ServerGoal>(1);
+    private ConcurrentHashMap<String, ServerGoal> goalTracker = new ConcurrentHashMap<String, ServerGoal>(1);
 
     /**
      * Constructor.
@@ -315,6 +315,16 @@ public class ActionServer<T_ACTION_GOAL extends Message,
     public void setSucceed(String goalIdString) {
         try {
             goalTracker.get(goalIdString).state.transition(ServerStateMachine.Events.SUCCEED);
+        } catch (Exception e) {
+        }
+    }
+
+    /**
+     * Express a aborted event for this goal. The state of the goal will be updated.
+     */
+    public void setAborted(String goalIdString) {
+        try {
+            goalTracker.get(goalIdString).state.transition(ServerStateMachine.Events.ABORT);
         } catch (Exception e) {
         }
     }

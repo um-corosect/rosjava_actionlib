@@ -51,7 +51,7 @@ public class ActionGoal<T_ACTION_GOAL extends Message> {
             try {
                 Method m = h.getClass().getMethod("getSeq");
                 m.setAccessible(true); // workaround for known bug http://bugs.java.com/bugdatabase/view_bug.do?bug_id=6924232
-                seq = (int) m.invoke(h);
+                seq = (Integer) m.invoke(h);
             } catch (Exception e) {
                 e.printStackTrace(System.out);
             }
