@@ -45,6 +45,8 @@ allprojects {
 
 dependencies {
     /* An external maven artifact dependency */
+    implementation 'org.ros.rosjava_bootstrap:message_generation:[0.3, 0.4)'
+    implementation 'org.ros.rosjava_messages:std_msgs:0.5.11'
 
     compile 'org.ros.rosjava_core:rosjava:[0.3,0.4)'
     compile 'org.apache.directory.studio:org.apache.commons.logging:[1.1,1.2)'
